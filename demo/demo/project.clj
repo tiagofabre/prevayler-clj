@@ -6,4 +6,7 @@
   :dependencies [[prevayler-clj "3.0.1"]
                  [midje "1.9.8"]
                  [org.clojure/clojure "1.8.0"]
-                 [nubank/matcher-combinators "0.9.0"]])
+                 [nubank/matcher-combinators "0.9.0"]
+                 [http-kit "2.3.0"]
+                 [compojure "1.6.1"]]
+  :main ^{:skip-aot true} demo.server)
