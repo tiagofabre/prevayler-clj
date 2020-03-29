@@ -3,6 +3,8 @@
             [prevayler2 :refer :all])
   (:import [java.io File]))
 
+(defn my-identity [_] "xyz")
+
 (defn- tmp-file []
   (doto
     (File/createTempFile "test-" ".tmp")
@@ -71,15 +73,13 @@
               {:users {:123 {:email "user1@teste123.com"}
                        :124 {:email "user2@gmail.com"}}}))
 
-        ; Anonymous function not supported yet
-        ;(is (= (handle! p update-in [:users :123 :email] (fn [_] "user1@teste123.com"))
-        ;      {:users {:123 {:email "user1@teste123.com"}
-        ;               :124 {:email "user2@gmail.com"}}}))
-        ))
+        (is (= (handle! p update-in [:users :123 :email] #'my-identity)
+              {:users {:123 {:email "xyz"}
+                       :124 {:email "user2@gmail.com"}}}))))
 
     (testing "Restart after some events recovers last state"
       (with-open [p (prev!)]
-        (is (= @p {:users {:123 {:email "user1@teste123.com"}
+        (is (= @p {:users {:123 {:email "xyz"}
                            :124 {:email "user2@gmail.com"}}}))))))
 
 (deftest persistent-prevayler-crash
